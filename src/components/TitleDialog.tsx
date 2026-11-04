@@ -284,7 +284,7 @@ export function TitleDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-ink/50 backdrop-blur-xs p-0 md:p-4 transition-opacity duration-200"
+      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-ink/50 backdrop-blur-xs p-0 md:p-4 animate-backdrop-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -294,7 +294,7 @@ export function TitleDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleIdAttr}
-        className="w-full md:max-w-[520px] max-h-[92dvh] bg-surface rounded-t-sheet md:rounded-card shadow-hero flex flex-col overflow-hidden border border-line transition duration-200 ease-out"
+        className="w-full md:max-w-[520px] max-h-[92dvh] bg-surface rounded-t-sheet md:rounded-card shadow-hero flex flex-col overflow-hidden border border-line animate-dialog-in"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-line shrink-0">

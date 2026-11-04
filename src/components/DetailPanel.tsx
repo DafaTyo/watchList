@@ -115,7 +115,7 @@ export function DetailPanel({
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full animate-panel-in">
       {/* Top bar */}
       <div className="flex items-center justify-between gap-2 pb-4 border-b border-line shrink-0">
         <button
@@ -259,40 +259,56 @@ export function DetailPanel({
 
         {/* Episode progress controls (only for series/anime) */}
         {isEpisodic && (
-          <div className="p-4 rounded-card bg-surface-soft border border-line flex items-center justify-between gap-3">
-            <div>
-              <span className="block text-xs font-medium text-ink-muted">
-                Progres Episode
-              </span>
-              <span className="text-2xl font-bold text-ink tabular-nums">
-                {title.episodeCurrent}{" "}
-                <span className="text-sm font-normal text-ink-muted">
-                  / {title.episodeTotal ?? "∞"} ep
+          <div className="p-4 rounded-card bg-surface-soft border border-line space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <span className="block text-xs font-medium text-ink-muted">
+                  Progres Episode
                 </span>
-              </span>
+                <span className="text-2xl font-bold text-ink tabular-nums">
+                  {title.episodeCurrent}{" "}
+                  <span className="text-sm font-normal text-ink-muted">
+                    / {title.episodeTotal ?? "∞"} ep
+                  </span>
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={busy || !canDecrement}
+                  onClick={handleMinusOne}
+                  aria-label="Kurangi 1 episode"
+                  className="w-11 h-11 rounded-pill bg-surface border border-line text-ink inline-flex items-center justify-center hover:bg-line/50 active:scale-95 disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
+                >
+                  <Minus className="w-4 h-4" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  disabled={busy || !canIncrement}
+                  onClick={handlePlusOne}
+                  aria-label="Tambah 1 episode"
+                  className="min-h-11 px-4 rounded-pill bg-cta-gradient text-ink font-semibold text-sm inline-flex items-center gap-1 shadow-card active:scale-95 disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
+                >
+                  <Plus className="w-4 h-4" aria-hidden="true" />
+                  <span>1 Ep</span>
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled={busy || !canDecrement}
-                onClick={handleMinusOne}
-                aria-label="Kurangi 1 episode"
-                className="w-11 h-11 rounded-pill bg-surface border border-line text-ink inline-flex items-center justify-center hover:bg-line/50 disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
-              >
-                <Minus className="w-4 h-4" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                disabled={busy || !canIncrement}
-                onClick={handlePlusOne}
-                aria-label="Tambah 1 episode"
-                className="min-h-11 px-4 rounded-pill bg-cta-gradient text-ink font-semibold text-sm inline-flex items-center gap-1 shadow-card disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
-              >
-                <Plus className="w-4 h-4" aria-hidden="true" />
-                <span>1 Ep</span>
-              </button>
-            </div>
+            {title.episodeTotal != null && title.episodeTotal > 0 && (
+              <div className="h-2 w-full rounded-pill bg-line overflow-hidden">
+                <div
+                  className="h-full rounded-pill bg-cta-gradient transition-all duration-300 ease-out"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      Math.round((title.episodeCurrent / title.episodeTotal) * 100)
+                    )}%`,
+                  }}
+                />
+              </div>
+            )}
           </div>
         )}
 

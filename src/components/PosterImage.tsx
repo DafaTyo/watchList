@@ -23,8 +23,10 @@ export function PosterImage({
   fallbackTextClassName = "text-xs font-bold",
 }: PosterImageProps) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const [loadedUrl, setLoadedUrl] = useState<string | null>(null);
   const trimmedUrl = posterUrl?.trim() || "";
   const showImage = Boolean(trimmedUrl) && failedUrl !== trimmedUrl;
+  const isLoaded = loadedUrl === trimmedUrl;
 
   if (!showImage) {
     return (
@@ -38,15 +40,30 @@ export function PosterImage({
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={trimmedUrl}
-      alt={name}
-      loading="lazy"
-      referrerPolicy="no-referrer"
-      onError={() => setFailedUrl(trimmedUrl)}
-      className={`object-cover bg-surface-soft ${className}`}
-    />
+    <div className={`relative overflow-hidden bg-surface-soft ${className}`}>
+      {!isLoaded && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 skeleton-shimmer"
+        />
+      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={(el) => {
+          if (el && el.complete && el.naturalWidth > 0 && loadedUrl !== trimmedUrl) {
+            setLoadedUrl(trimmedUrl);
+          }
+        }}
+        src={trimmedUrl}
+        alt={name}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onLoad={() => setLoadedUrl(trimmedUrl)}
+        onError={() => setFailedUrl(trimmedUrl)}
+        className={`w-full h-full object-cover transition-all duration-300 ease-out ${
+          isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
+        }`}
+      />
+    </div>
   );
 }
-

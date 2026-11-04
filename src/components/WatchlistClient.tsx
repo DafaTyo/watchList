@@ -97,6 +97,7 @@ export function WatchlistClient({
   const [menuOpen, setMenuOpen] = useState(false);
   const [bannerError, setBannerError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [mutatingTitleId, setMutatingTitleId] = useState<number | null>(null);
 
   const currentYear = new Date().getFullYear();
 
@@ -299,8 +300,10 @@ export function WatchlistClient({
   ): Promise<{ ok: boolean; error?: string }> {
     setBannerError(null);
     setBusy(true);
+    setMutatingTitleId(titleId);
     const res = await incrementEpisodeAction(titleId);
     setBusy(false);
+    setMutatingTitleId(null);
     if (!res.ok) {
       setBannerError(res.error);
       return res;
@@ -315,8 +318,10 @@ export function WatchlistClient({
   ): Promise<{ ok: boolean; error?: string }> {
     setBannerError(null);
     setBusy(true);
+    setMutatingTitleId(titleId);
     const res = await decrementEpisodeAction(titleId);
     setBusy(false);
+    setMutatingTitleId(null);
     if (!res.ok) {
       setBannerError(res.error);
       return res;
@@ -479,7 +484,7 @@ export function WatchlistClient({
             {menuOpen && (
               <div
                 role="menu"
-                className="absolute right-0 mt-2 w-60 rounded-card bg-surface shadow-hero border border-line p-3 z-30 space-y-2"
+                className="absolute right-0 mt-2 w-60 rounded-card bg-surface shadow-hero border border-line p-3 z-30 space-y-2 animate-dialog-in"
               >
                 <div className="px-2 py-1.5 border-b border-line">
                   <div className="text-xs font-bold text-ink truncate">
@@ -508,7 +513,7 @@ export function WatchlistClient({
           {featuredTitle ? (
             <div
               key={featuredTitle.id}
-              className="w-full max-w-lg flex flex-col items-center transition-opacity duration-200"
+              className="w-full max-w-lg flex flex-col items-center animate-spotlight-in"
             >
               {/* Main Spotlight Card */}
               <div className="flex flex-row md:flex-col items-center gap-4 md:gap-4 w-full bg-surface/20 md:bg-transparent backdrop-blur-xs md:backdrop-blur-none p-3.5 md:p-0 rounded-card">
@@ -518,7 +523,7 @@ export function WatchlistClient({
                       type="button"
                       onClick={prevSpotlight}
                       aria-label="Sorotan sebelumnya"
-                      className="hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 w-11 h-11 rounded-pill bg-surface/85 hover:bg-surface text-ink shadow-card items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
+                      className="hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 w-11 h-11 rounded-pill bg-surface/85 hover:bg-surface active:scale-95 text-ink shadow-card items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
                     >
                       <ChevronLeft className="w-5 h-5" aria-hidden="true" />
                     </button>
@@ -528,7 +533,7 @@ export function WatchlistClient({
                     type="button"
                     onClick={() => setSelectedTitleId(featuredTitle.id)}
                     aria-label={`Lihat detail sorotan: ${featuredTitle.name}`}
-                    className="group relative rounded-card overflow-hidden shadow-hero border-2 border-surface/60 shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-400 transition hover:scale-[1.01]"
+                    className="group relative rounded-card overflow-hidden shadow-hero border-2 border-surface/60 shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-400 transition-transform duration-300 ease-out hover:scale-[1.02]"
                   >
                     <PosterImage
                       posterUrl={featuredTitle.posterUrl}
@@ -543,7 +548,7 @@ export function WatchlistClient({
                       type="button"
                       onClick={nextSpotlight}
                       aria-label="Sorotan berikutnya"
-                      className="hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 w-11 h-11 rounded-pill bg-surface/85 hover:bg-surface text-ink shadow-card items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
+                      className="hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 w-11 h-11 rounded-pill bg-surface/85 hover:bg-surface active:scale-95 text-ink shadow-card items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
                     >
                       <ChevronRight className="w-5 h-5" aria-hidden="true" />
                     </button>
@@ -566,7 +571,7 @@ export function WatchlistClient({
                     onClick={() => setSelectedTitleId(featuredTitle.id)}
                     className="text-left md:text-center group cursor-pointer focus-visible:outline-none"
                   >
-                    <h2 className="text-base sm:text-xl lg:text-2xl font-bold text-ink bg-surface/95 px-4 py-1.5 rounded-pill shadow-xs truncate max-w-[230px] sm:max-w-sm lg:max-w-md group-hover:text-teal-600 transition">
+                    <h2 className="text-base sm:text-xl lg:text-2xl font-bold text-ink bg-surface/95 px-4 py-1.5 rounded-pill shadow-xs truncate max-w-[230px] sm:max-w-sm lg:max-w-md group-hover:text-teal-600 transition-colors duration-150">
                       {featuredTitle.name}
                     </h2>
                   </button>
@@ -610,7 +615,7 @@ export function WatchlistClient({
                         href={featuredTitle.links[0].url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="min-h-11 px-4 rounded-pill bg-cta-gradient text-ink text-xs font-bold inline-flex items-center gap-1.5 shadow-card hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
+                        className="min-h-11 px-4 rounded-pill bg-cta-gradient text-ink text-xs font-bold inline-flex items-center gap-1.5 shadow-card hover:opacity-95 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
                       >
                         <span>Tonton di {featuredTitle.links[0].label}</span>
                         <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -619,7 +624,7 @@ export function WatchlistClient({
                     <button
                       type="button"
                       onClick={() => setSelectedTitleId(featuredTitle.id)}
-                      className="min-h-11 px-4 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center gap-1.5 shadow-card hover:bg-teal-600 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition"
+                      className="min-h-11 px-4 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center gap-1.5 shadow-card hover:bg-teal-600 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition-all duration-150"
                     >
                       <span>Detail & Catatan</span>
                     </button>
@@ -627,7 +632,7 @@ export function WatchlistClient({
                 </div>
               </div>
 
-              {/* Carousel indicator dots */}
+              {/* Carousel indicator dots with smooth progress fill */}
               {spotlightPool.length > 1 && (
                 <div
                   role="tablist"
@@ -647,12 +652,21 @@ export function WatchlistClient({
                         className="py-2 px-1 cursor-pointer focus-visible:outline-none"
                       >
                         <span
-                          className={`block h-2 rounded-pill transition-all duration-200 ${
+                          className={`relative block h-2 rounded-pill overflow-hidden transition-all duration-300 ${
                             active
-                              ? "w-7 bg-teal-400 shadow-xs"
+                              ? "w-8 bg-surface/50 shadow-xs"
                               : "w-2 bg-surface/60 hover:bg-surface"
                           }`}
-                        />
+                        >
+                          {active && (
+                            <span
+                              key={`${featuredTitle.id}-${spotlightPaused ? "paused" : "run"}`}
+                              className={`block h-full w-full rounded-pill bg-teal-400 ${
+                                spotlightPaused ? "" : "animate-spotlight-bar"
+                              }`}
+                            />
+                          )}
+                        </span>
                       </button>
                     );
                   })}
@@ -762,7 +776,7 @@ export function WatchlistClient({
             onDeleteLink={handleDeleteLink}
           />
         ) : (
-          <>
+          <div className="flex flex-col flex-1 min-h-0 animate-panel-in">
             {/* Compact Top Header + Big Statistics Block so the list gets much more vertical room */}
             <div className="pb-3.5 border-b border-line shrink-0">
               <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -934,12 +948,14 @@ export function WatchlistClient({
                   }
                 />
               ) : (
-                filteredTitles.map((title) => (
+                filteredTitles.map((title, idx) => (
                   <TitleRow
                     key={title.id}
+                    index={idx}
                     title={title}
                     selected={selectedTitleId === title.id}
                     busy={busy}
+                    isMutating={mutatingTitleId === title.id}
                     onSelect={(t) => setSelectedTitleId(t.id)}
                     onQuickIncrement={handleIncrementEpisode}
                   />
@@ -952,7 +968,7 @@ export function WatchlistClient({
               <button
                 type="button"
                 onClick={openCreateDialog}
-                className="w-full h-14 rounded-pill bg-cta-gradient text-ink font-semibold text-base flex items-center justify-between px-6 shadow-card cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 transition"
+                className="w-full h-14 rounded-pill bg-cta-gradient text-ink font-semibold text-base flex items-center justify-between px-6 shadow-card hover:shadow-hero hover:-translate-y-0.5 active:scale-[0.99] cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 transition-all duration-200"
               >
                 <span>Tambah Judul</span>
                 <span className="w-9 h-9 rounded-pill bg-ink text-surface flex items-center justify-center">
@@ -960,7 +976,7 @@ export function WatchlistClient({
                 </span>
               </button>
             </div>
-          </>
+          </div>
         )}
       </section>
 

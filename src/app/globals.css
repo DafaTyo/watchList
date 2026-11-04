@@ -64,6 +64,124 @@ body {
   background: linear-gradient(145deg, #FFFFFF 0%, #F2FAF7 100%);
 }
 
+@keyframes shimmer-wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes spotlight-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panel-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes list-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes backdrop-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spotlight-progress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-soft) 0%,
+    var(--color-line) 50%,
+    var(--color-surface-soft) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-wave 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.skeleton-shimmer-hero {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.48) 50%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-wave 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-spotlight-in {
+  animation: spotlight-enter 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-panel-in {
+  animation: panel-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-row-in {
+  animation: list-enter 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-backdrop-in {
+  animation: backdrop-fade 200ms ease-out both;
+}
+
+.animate-dialog-in {
+  animation: dialog-pop 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-spotlight-bar {
+  transform-origin: left center;
+  animation: spotlight-progress 5000ms linear forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
