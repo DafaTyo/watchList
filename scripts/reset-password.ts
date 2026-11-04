@@ -1,5 +1,12 @@
-import { auth } from "../src/lib/auth";
-import { db } from "../src/lib/db";
+import { PrismaClient } from "@prisma/client";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+
+const db = new PrismaClient();
+const auth = betterAuth({
+  database: prismaAdapter(db, { provider: "mysql" }),
+  emailAndPassword: { enabled: true },
+});
 
 async function main() {
   const [, , rawEmail, newPassword] = process.argv;
@@ -39,4 +46,3 @@ main()
   .finally(async () => {
     await db.$disconnect();
   });
-

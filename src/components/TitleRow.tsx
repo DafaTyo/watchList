@@ -36,44 +36,38 @@ export function TitleRow({
   }
 
   return (
-    <div className="pt-2.5">
-      <div className="flex items-center justify-center mb-0.5">
-        <span className="text-[11px] font-medium text-ink-muted leading-none">
-          {STATUS_LABELS[status]}
-        </span>
-      </div>
-
+    <div className="pt-2">
       <div
         role="button"
         tabIndex={0}
         onClick={() => onSelect(title)}
         onKeyDown={handleKeyDown}
         aria-label={`${title.name}, status ${STATUS_LABELS[status]}`}
-        className={`relative group flex items-center justify-between gap-3 px-3 py-2 min-h-16 sm:min-h-14 rounded-pill bg-surface-soft border transition duration-150 cursor-pointer hover:-translate-y-0.5 hover:shadow-card focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 ${
+        className={`relative group flex items-center justify-between gap-3.5 px-4 py-3 min-h-[72px] rounded-pill bg-surface-soft border transition duration-150 cursor-pointer hover:-translate-y-0.5 hover:shadow-card focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 ${
           selected ? "border-teal-500 shadow-card bg-surface" : "border-line"
         }`}
       >
         {/* Top-left floating status badge */}
         <span
-          className={`absolute -top-2.5 left-4 px-2 py-0.5 rounded-pill text-[10px] font-bold leading-none shadow-xs ${STATUS_STYLES[status]}`}
+          className={`absolute -top-2.5 left-5 px-2.5 py-0.5 rounded-pill text-[11px] font-bold leading-none shadow-xs ${STATUS_STYLES[status]}`}
         >
           {STATUS_LABELS[status]}
         </span>
 
         {/* Left: poster avatar + title info */}
-        <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-3.5 min-w-0 flex-1">
           <PosterImage
             posterUrl={title.posterUrl}
             name={title.name}
-            className="w-10 h-10 rounded-pill shrink-0"
-            fallbackTextClassName="text-xs font-bold"
+            className="w-12 h-12 rounded-pill shrink-0 shadow-xs"
+            fallbackTextClassName="text-sm font-bold"
           />
           <div className="min-w-0 flex-1">
-            <div className="text-sm font-semibold text-ink truncate">
+            <div className="text-[15px] sm:text-base font-bold text-ink truncate leading-snug">
               {title.name}
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-ink-muted truncate">
-              <span>{TYPE_LABELS[type]}</span>
+            <div className="flex items-center gap-2 text-xs sm:text-[13px] text-ink-muted truncate mt-0.5">
+              <span className="font-medium text-ink/80">{TYPE_LABELS[type]}</span>
               {title.year && (
                 <>
                   <span aria-hidden="true">·</span>
@@ -83,12 +77,12 @@ export function TitleRow({
               {title.rating != null && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <span className="inline-flex items-center gap-0.5 text-ink font-medium">
+                  <span className="inline-flex items-center gap-0.5 text-ink font-semibold">
                     <Star
-                      className="w-3 h-3 text-orange-500 fill-orange-500"
+                      className="w-3.5 h-3.5 text-orange-500 fill-orange-500"
                       aria-hidden="true"
                     />
-                    {title.rating}
+                    {title.rating}/10
                   </span>
                 </>
               )}
@@ -97,19 +91,19 @@ export function TitleRow({
         </div>
 
         {/* Right: episode progress, quick +1, link indicator */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {title.links.length > 0 && (
             <span
               title={`${title.links.length} link menonton`}
               aria-label={`${title.links.length} link menonton`}
-              className="w-7 h-7 rounded-pill bg-surface flex items-center justify-center text-teal-600 border border-line"
+              className="w-8 h-8 rounded-pill bg-surface flex items-center justify-center text-teal-600 border border-line"
             >
-              <LinkIcon className="w-3.5 h-3.5" aria-hidden="true" />
+              <LinkIcon className="w-4 h-4" aria-hidden="true" />
             </span>
           )}
 
           {isEpisodic && (
-            <span className="px-2.5 py-1 rounded-pill bg-surface text-xs font-semibold text-ink border border-line tabular-nums">
+            <span className="px-3 py-1.5 rounded-pill bg-surface text-xs sm:text-[13px] font-bold text-ink border border-line tabular-nums">
               {title.episodeCurrent}/{title.episodeTotal ?? "∞"}
             </span>
           )}
@@ -123,7 +117,7 @@ export function TitleRow({
                 onQuickIncrement(title.id);
               }}
               aria-label={`Tambah 1 episode untuk ${title.name}`}
-              className="min-w-11 min-h-11 px-2.5 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center justify-center gap-0.5 hover:bg-teal-600 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
+              className="min-w-11 min-h-11 px-3 rounded-pill bg-ink text-surface text-xs font-bold inline-flex items-center justify-center gap-0.5 hover:bg-teal-600 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition"
             >
               <Plus className="w-3.5 h-3.5" aria-hidden="true" />
               <span>1</span>
@@ -134,4 +128,3 @@ export function TitleRow({
     </div>
   );
 }
-
