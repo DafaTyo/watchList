@@ -1,0 +1,147 @@
+// Skema database Nixtio Watch (MySQL).
+// Lihat docs/PRD.md §7.
+//
+// CATATAN: model User/Session/Account/Verification di bawah mengikuti skema inti
+// Better Auth. Setelah library auth terpasang, jalankan CLI-nya (lihat README)
+// dan perlakukan hasil generate sebagai sumber kebenaran untuk keempat model itu.
+// Model Title dan WatchLink adalah milik aplikasi.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth (dikelola library auth) ----------
+
+model User {
+  id            String    @id @db.VarChar(191)
+  name          String    @db.VarChar(191)
+  email         String    @unique @db.VarChar(191)
+  emailVerified Boolean   @default(false)
+  image         String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+  titles   Title[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @db.VarChar(191)
+  expiresAt DateTime
+  token     String   @unique @db.VarChar(191)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?  @db.Text
+  userAgent String?  @db.Text
+  userId    String   @db.VarChar(191)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @db.VarChar(191)
+  accountId             String    @db.Text
+  providerId            String    @db.Text
+  userId                String    @db.VarChar(191)
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?   @db.Text
+  password              String?   @db.Text
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @db.VarChar(191)
+  identifier String   @db.VarChar(191)
+  value      String   @db.Text
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// Hanya diperlukan bila rate limit auth memakai penyimpanan database.
+// Bentuk persisnya mengikuti hasil generate CLI; sesuaikan bila berbeda.
+model RateLimit {
+  id          String  @id @db.VarChar(191)
+  key         String  @unique @db.VarChar(191)
+  count       Int
+  lastRequest BigInt
+
+  @@map("rateLimit")
+}
+
+// ---------- Domain aplikasi ----------
+
+enum TitleType {
+  movie
+  series
+  anime
+}
+
+enum TitleStatus {
+  planned
+  watching
+  completed
+  on_hold
+  dropped
+}
+
+model Title {
+  id             Int         @id @default(autoincrement())
+  userId         String      @map("user_id") @db.VarChar(191)
+  name           String      @db.VarChar(200)
+  type           TitleType
+  status         TitleStatus @default(planned)
+  year           Int?        @db.SmallInt
+  posterUrl      String?     @map("poster_url") @db.VarChar(2048)
+  rating         Int?        @db.TinyInt
+  episodeCurrent Int         @default(0) @map("episode_current")
+  episodeTotal   Int?        @map("episode_total")
+  notes          String?     @db.Text
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links WatchLink[]
+
+  @@index([userId, status])
+  @@index([userId, updatedAt])
+  @@map("titles")
+}
+
+model WatchLink {
+  id        Int      @id @default(autoincrement())
+  titleId   Int      @map("title_id")
+  label     String   @db.VarChar(40)
+  url       String   @db.VarChar(2048)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  @@index([titleId])
+  @@map("watch_links")
+}
+
+// Batas yang dicek di aplikasi (bukan di skema): maks 500 judul/pengguna,
+// maks 10 link/judul. CHECK constraint ditambahkan lewat migrasi SQL (README §4).
