@@ -294,12 +294,12 @@ export async function incrementEpisode(
   const affected = await db.$executeRaw`
     UPDATE \`titles\`
     SET
-      \`episode_current\` = \`episode_current\` + 1,
       \`status\` = CASE
         WHEN \`episode_total\` IS NOT NULL AND (\`episode_current\` + 1) >= \`episode_total\` THEN 'completed'
         WHEN \`status\` = 'planned' THEN 'watching'
         ELSE \`status\`
       END,
+      \`episode_current\` = \`episode_current\` + 1,
       \`updated_at\` = NOW(3)
     WHERE \`id\` = ${titleId}
       AND \`user_id\` = ${userId}

@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "./db";
@@ -12,6 +13,23 @@ export const auth = betterAuth({
   database: prismaAdapter(db, {
     provider: "mysql",
   }),
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (
+        (ctx.path === "/sign-up/email" || ctx.path === "/sign-in/email") &&
+        ctx.body &&
+        typeof ctx.body === "object"
+      ) {
+        const body = ctx.body as Record<string, unknown>;
+        if (typeof body.email === "string") {
+          body.email = body.email.trim().toLowerCase();
+        }
+        if (typeof body.name === "string") {
+          body.name = body.name.trim();
+        }
+      }
+    }),
+  },
   emailAndPassword: {
     enabled: true,
     get disableSignUp() {
