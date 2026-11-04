@@ -39,3 +39,4 @@ export async function requireActionUser(): Promise<SessionUser> {
   }
   return user;
 }
+

@@ -13,3 +13,4 @@ export default async function RegisterPage() {
 
   return <AuthForm mode="register" allowRegistration={isRegistrationAllowed()} />;
 }
+

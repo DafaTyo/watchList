@@ -10,3 +10,4 @@ export default async function AppLayout({
   await requireUser();
   return <>{children}</>;
 }
+

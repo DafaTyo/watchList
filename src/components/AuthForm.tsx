@@ -271,3 +271,4 @@ export function AuthForm({ mode, allowRegistration }: AuthFormProps) {
     </div>
   );
 }
+
