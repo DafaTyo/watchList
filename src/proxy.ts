@@ -14,7 +14,10 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isLoggedIn = hasSessionCookie(request);
 
-  if (pathname.startsWith("/watchlist") && !isLoggedIn) {
+  if (
+    (pathname.startsWith("/watchlist") || pathname.startsWith("/dashboard")) &&
+    !isLoggedIn
+  ) {
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -23,6 +26,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/watchlist/:path*", "/login", "/register"],
+  matcher: ["/watchlist/:path*", "/dashboard/:path*", "/login", "/register"],
 };
 

@@ -24,6 +24,8 @@ export async function getOptionalUser(): Promise<SessionUser | null> {
   };
 }
 
+export const getCurrentUser = getOptionalUser;
+
 export async function requireUser(): Promise<SessionUser> {
   const user = await getOptionalUser();
   if (!user) {
