@@ -50,7 +50,7 @@ export function TitleRow({
         onClick={() => onSelect(title)}
         onKeyDown={handleKeyDown}
         aria-label={`${title.name}, status ${STATUS_LABELS[status]}`}
-        className={`relative group flex items-center justify-between gap-3.5 px-4 py-3 min-h-[72px] rounded-pill bg-surface-soft border transition-all duration-200 ease-out cursor-pointer hover:-translate-y-0.5 hover:shadow-card hover:bg-surface active:scale-[0.995] focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 ${
+        className={`relative group flex items-center justify-between gap-2.5 sm:gap-3.5 px-3 sm:px-4 py-2.5 sm:py-3 min-h-[68px] sm:min-h-[72px] rounded-card sm:rounded-pill bg-surface-soft border transition-all duration-200 ease-out cursor-pointer hover:-translate-y-0.5 hover:shadow-card hover:bg-surface active:scale-[0.995] focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 focus-visible:ring-offset-2 ${
           selected
             ? "border-teal-500 shadow-card bg-surface"
             : "border-line"
@@ -58,24 +58,24 @@ export function TitleRow({
       >
         {/* Top-left floating status badge */}
         <span
-          className={`absolute -top-2.5 left-5 px-2.5 py-0.5 rounded-pill text-[11px] font-bold leading-none shadow-xs transition-colors duration-200 ${STATUS_STYLES[status]}`}
+          className={`absolute -top-2.5 left-3.5 sm:left-5 px-2.5 py-0.5 rounded-pill text-[10px] sm:text-[11px] font-bold leading-none shadow-xs transition-colors duration-200 ${STATUS_STYLES[status]}`}
         >
           {STATUS_LABELS[status]}
         </span>
 
         {/* Left: poster avatar + title info */}
-        <div className="flex items-center gap-3.5 min-w-0 flex-1">
+        <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
           <PosterImage
             posterUrl={title.posterUrl}
             name={title.name}
-            className="w-12 h-12 rounded-pill shrink-0 shadow-xs transition-transform duration-200 group-hover:scale-105"
-            fallbackTextClassName="text-sm font-bold"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-pill shrink-0 shadow-xs transition-transform duration-200 group-hover:scale-105"
+            fallbackTextClassName="text-xs sm:text-sm font-bold"
           />
           <div className="min-w-0 flex-1">
-            <div className="text-[15px] sm:text-base font-bold text-ink truncate leading-snug group-hover:text-teal-600 transition-colors duration-150">
+            <div className="text-sm sm:text-base font-bold text-ink truncate leading-snug group-hover:text-teal-600 transition-colors duration-150">
               {title.name}
             </div>
-            <div className="flex items-center gap-2 text-xs sm:text-[13px] text-ink-muted truncate mt-0.5">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-[13px] text-ink-muted truncate mt-0.5">
               <span className="font-medium text-ink/80">{TYPE_LABELS[type]}</span>
               {title.year && (
                 <>
@@ -88,7 +88,7 @@ export function TitleRow({
                   <span aria-hidden="true">·</span>
                   <span className="inline-flex items-center gap-0.5 text-ink font-semibold">
                     <Star
-                      className="w-3.5 h-3.5 text-orange-500 fill-orange-500"
+                      className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-orange-500 fill-orange-500"
                       aria-hidden="true"
                     />
                     {title.rating}/10
@@ -100,12 +100,12 @@ export function TitleRow({
         </div>
 
         {/* Right: episode progress, quick +1, link indicator */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {title.links.length > 0 && (
             <span
               title={`${title.links.length} link menonton`}
               aria-label={`${title.links.length} link menonton`}
-              className="w-8 h-8 rounded-pill bg-surface flex items-center justify-center text-teal-600 border border-line transition-transform duration-150 group-hover:scale-105"
+              className="hidden sm:flex w-8 h-8 rounded-pill bg-surface items-center justify-center text-teal-600 border border-line transition-transform duration-150 group-hover:scale-105"
             >
               <LinkIcon className="w-4 h-4" aria-hidden="true" />
             </span>
@@ -113,7 +113,7 @@ export function TitleRow({
 
           {isEpisodic && (
             <span
-              className={`px-3 py-1.5 rounded-pill bg-surface text-xs sm:text-[13px] font-bold text-ink border border-line tabular-nums transition-all duration-200 ${
+              className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-pill bg-surface text-[11px] sm:text-[13px] font-bold text-ink border border-line tabular-nums transition-all duration-200 ${
                 isMutating ? "skeleton-shimmer" : ""
               }`}
             >
@@ -130,7 +130,7 @@ export function TitleRow({
                 onQuickIncrement(title.id);
               }}
               aria-label={`Tambah 1 episode untuk ${title.name}`}
-              className="min-w-11 min-h-11 px-3 rounded-pill bg-ink text-surface text-xs font-bold inline-flex items-center justify-center gap-0.5 hover:bg-teal-600 active:scale-95 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
+              className="min-w-10 min-h-10 sm:min-w-11 sm:min-h-11 px-2.5 sm:px-3 rounded-pill bg-ink text-surface text-xs font-bold inline-flex items-center justify-center gap-0.5 hover:bg-teal-600 active:scale-95 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 transition-all duration-150"
             >
               {isMutating ? (
                 <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />

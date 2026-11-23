@@ -497,58 +497,59 @@ export function WatchlistClient({
       } w-full max-w-[1440px] mx-auto p-3 sm:p-4 lg:p-6 flex flex-col gap-4 lg:gap-5 overflow-x-hidden`}
     >
       {/* TOP NAVIGATION HEADER (Unified with Dashboard) */}
-      <header className="rounded-card bg-surface shadow-card border border-line/60 px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="rounded-card bg-surface shadow-card border border-line/60 px-3.5 sm:px-6 py-3 sm:py-3.5 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+        <div className="order-1 flex items-center gap-2.5 sm:gap-3 min-w-0">
           <div
-            className="w-11 h-11 rounded-icon bg-ink text-surface flex items-center justify-center shadow-xs shrink-0"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-icon bg-ink text-surface flex items-center justify-center shadow-xs shrink-0"
             aria-label="Nixtio Watch"
           >
             <Film className="w-5 h-5" aria-hidden="true" />
           </div>
-          <div>
-            <span className="font-display text-base sm:text-lg font-bold uppercase tracking-wider text-ink block leading-none">
+          <div className="min-w-0">
+            <span className="font-display text-sm sm:text-lg font-bold uppercase tracking-wider text-ink block leading-none truncate">
               Nixtio Watch
             </span>
-            <span className="text-xs text-ink-muted">
+            <span className="text-[11px] sm:text-xs text-ink-muted block truncate mt-0.5">
               Koleksi & Progres Watchlist
             </span>
           </div>
         </div>
 
-        {/* Navigation Switcher: Dashboard vs Watchlist */}
+        {/* Navigation Switcher: Full-width 2-col on mobile, centered pill on md+ */}
         <nav
           aria-label="Navigasi utama"
-          className="flex items-center gap-1.5 bg-surface-soft p-1.5 rounded-pill border border-line"
+          className="order-3 md:order-2 w-full md:w-auto grid grid-cols-2 md:flex items-center gap-1.5 bg-surface-soft p-1.5 rounded-pill border border-line"
         >
           <Link
             href="/dashboard"
-            className="min-h-10 px-4 rounded-pill text-ink-muted hover:text-ink hover:bg-surface text-xs sm:text-sm font-semibold inline-flex items-center gap-1.5 transition"
+            className="min-h-10 px-3 sm:px-4 rounded-pill text-ink-muted hover:text-ink hover:bg-surface text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-1.5 transition"
           >
-            <Compass className="w-4 h-4" aria-hidden="true" />
-            <span>Dashboard</span>
+            <Compass className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span className="truncate">Dashboard</span>
           </Link>
           <Link
             href="/watchlist"
             aria-current="page"
-            className="min-h-10 px-4 rounded-pill bg-ink text-surface text-xs sm:text-sm font-semibold inline-flex items-center gap-1.5 shadow-xs transition"
+            className="min-h-10 px-3 sm:px-4 rounded-pill bg-ink text-surface text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-1.5 shadow-xs transition"
           >
-            <ListVideo className="w-4 h-4 text-teal-400" aria-hidden="true" />
-            <span>Watchlist Saya</span>
-            <span className="px-2 py-0.5 rounded-pill bg-teal-400 text-ink text-[11px] font-bold">
+            <ListVideo className="w-4 h-4 text-teal-400 shrink-0" aria-hidden="true" />
+            <span className="truncate">Watchlist</span>
+            <span className="px-2 py-0.5 rounded-pill bg-teal-400 text-ink text-[11px] font-bold tabular-nums">
               {stats.total}
             </span>
           </Link>
         </nav>
 
         {/* Right Actions: Quick Add + Account Menu */}
-        <div className="flex items-center gap-2.5">
+        <div className="order-2 md:order-3 flex items-center gap-2 shrink-0">
           <button
             type="button"
             onClick={openCreateDialog}
-            className="min-h-11 px-4 rounded-pill bg-cta-gradient text-ink text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 shadow-card hover:opacity-95 active:scale-95 cursor-pointer transition"
+            className="min-h-10 sm:min-h-11 px-3.5 sm:px-4 rounded-pill bg-cta-gradient text-ink text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 shadow-card hover:opacity-95 active:scale-95 cursor-pointer transition"
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">Tambah Watchlist</span>
+            <span className="sm:hidden">Tambah</span>
           </button>
 
           <div className="relative z-30">
@@ -558,7 +559,7 @@ export function WatchlistClient({
               aria-expanded={menuOpen}
               aria-haspopup="menu"
               aria-label="Menu akun"
-              className="relative z-40 w-11 h-11 rounded-icon bg-surface-soft border border-line text-ink flex items-center justify-center hover:bg-line/50 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 transition"
+              className="relative z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-icon bg-surface-soft border border-line text-ink flex items-center justify-center hover:bg-line/50 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-600 transition"
             >
               <Menu className="w-5 h-5" aria-hidden="true" />
             </button>
@@ -624,20 +625,20 @@ export function WatchlistClient({
             aria-label="Sorotan Watchlist (Minimize)"
             onMouseEnter={() => setSpotlightPaused(true)}
             onMouseLeave={() => setSpotlightPaused(false)}
-            className="w-full rounded-card bg-hero-gradient shadow-card px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 shrink-0 animate-panel-in"
+            className="w-full rounded-card bg-hero-gradient shadow-card px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3 shrink-0 animate-panel-in"
           >
-            <div className="flex items-center gap-3 min-w-0 flex-1">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-pill bg-surface/95 text-ink text-xs font-bold shrink-0 shadow-xs">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              <span className="hidden xs:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-pill bg-surface/95 text-ink text-xs font-bold shrink-0 shadow-xs">
                 <Sparkles className="w-3.5 h-3.5 text-teal-600" aria-hidden="true" />
-                <span>Sorotan</span>
+                <span className="hidden sm:inline">Sorotan</span>
               </span>
 
               {featuredTitle ? (
-                <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
                   <button
                     type="button"
                     onClick={() => setSelectedTitleId(featuredTitle.id)}
-                    className="flex items-center gap-2.5 min-w-0 bg-surface/95 hover:bg-surface px-3 py-1 rounded-pill shadow-xs cursor-pointer transition"
+                    className="flex items-center gap-2 min-w-0 bg-surface/95 hover:bg-surface px-2.5 sm:px-3 py-1 rounded-pill shadow-xs cursor-pointer transition max-w-full"
                   >
                     <PosterImage
                       posterUrl={featuredTitle.posterUrl}
@@ -645,16 +646,16 @@ export function WatchlistClient({
                       className="w-7 h-7 rounded-pill shrink-0"
                       fallbackTextClassName="text-[10px] font-bold"
                     />
-                    <span className="text-xs sm:text-sm font-bold text-ink truncate max-w-[180px] sm:max-w-xs">
+                    <span className="text-xs sm:text-sm font-bold text-ink truncate">
                       {featuredTitle.name}
                     </span>
-                    <span className="hidden sm:inline-block text-[11px] font-semibold text-ink-muted">
+                    <span className="hidden sm:inline-block text-[11px] font-semibold text-ink-muted shrink-0">
                       ({STATUS_LABELS[featuredTitle.status as TitleStatusValue]})
                     </span>
                   </button>
 
                   {spotlightPool.length > 1 && (
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-1 shrink-0">
                       <button
                         type="button"
                         onClick={prevSpotlight}
@@ -675,14 +676,14 @@ export function WatchlistClient({
                   )}
                 </div>
               ) : (
-                <span className="text-xs font-semibold text-surface">
+                <span className="text-xs font-semibold text-surface truncate">
                   Belum ada judul sorotan
                 </span>
               )}
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden lg:flex items-center gap-2">
                 <span className="px-3 py-1.5 rounded-pill bg-surface/90 text-ink text-xs font-bold shadow-xs">
                   Sedang ditonton: {stats.watching}
                 </span>
@@ -694,10 +695,11 @@ export function WatchlistClient({
               <button
                 type="button"
                 onClick={() => setSpotlightMinimized(false)}
-                className="min-h-10 px-4 rounded-pill bg-surface hover:bg-teal-400 text-ink text-xs font-bold shadow-card inline-flex items-center gap-1.5 cursor-pointer transition"
+                className="min-h-9 sm:min-h-10 px-3 sm:px-4 rounded-pill bg-surface hover:bg-teal-400 text-ink text-xs font-bold shadow-card inline-flex items-center gap-1.5 cursor-pointer transition"
               >
                 <Maximize2 className="w-3.5 h-3.5 text-teal-600" aria-hidden="true" />
-                <span>Normalkan Sorotan</span>
+                <span className="hidden sm:inline">Normalkan Sorotan</span>
+                <span className="sm:hidden">Normalkan</span>
               </button>
             </div>
           </section>
@@ -707,31 +709,30 @@ export function WatchlistClient({
             aria-label="Sorotan Watchlist"
             onMouseEnter={() => setSpotlightPaused(true)}
             onMouseLeave={() => setSpotlightPaused(false)}
-            className="relative w-full lg:w-1/2 lg:flex-1 rounded-panel bg-hero-gradient shadow-hero p-5 sm:p-6 flex flex-col justify-between min-h-[260px] md:min-h-[320px] lg:min-h-0 overflow-hidden animate-panel-in"
+            className="relative w-full lg:w-1/2 lg:flex-1 rounded-panel bg-hero-gradient shadow-hero p-4 sm:p-6 flex flex-col justify-between lg:min-h-0 overflow-hidden animate-panel-in"
           >
             {/* Top badge + Prev/Next + Minimize Button inside hero panel */}
             <div className="relative z-10 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill bg-surface/95 text-ink text-xs font-bold shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-teal-600" aria-hidden="true" />
-                  <span>Sorotan Koleksi Saya</span>
+              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-surface/95 text-ink text-xs font-bold shadow-xs truncate">
+                  <Sparkles className="w-3.5 h-3.5 text-teal-600 shrink-0" aria-hidden="true" />
+                  <span className="truncate">Sorotan Koleksi</span>
                 </span>
                 {spotlightPool.length > 1 && (
-                  <span className="hidden sm:inline-block px-3 py-1 rounded-pill bg-ink/80 text-surface text-[11px] font-semibold">
-                    {safeSpotlightIndex + 1}/{spotlightPool.length} ·{" "}
-                    {spotlightPaused ? "Dijeda" : "Otomatis 5 dtk"}
+                  <span className="px-2.5 py-1 rounded-pill bg-ink/80 text-surface text-[11px] font-semibold tabular-nums shrink-0">
+                    {safeSpotlightIndex + 1}/{spotlightPool.length}
                   </span>
                 )}
               </div>
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 {spotlightPool.length > 1 && (
-                  <div className="hidden sm:flex items-center gap-1">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={prevSpotlight}
                       aria-label="Sorotan sebelumnya"
-                      className="w-9 h-9 rounded-pill bg-surface/90 hover:bg-surface active:scale-95 text-ink shadow-xs flex items-center justify-center cursor-pointer transition"
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-pill bg-surface/90 hover:bg-surface active:scale-95 text-ink shadow-xs flex items-center justify-center cursor-pointer transition"
                     >
                       <ChevronLeft className="w-4 h-4" aria-hidden="true" />
                     </button>
@@ -739,7 +740,7 @@ export function WatchlistClient({
                       type="button"
                       onClick={nextSpotlight}
                       aria-label="Sorotan berikutnya"
-                      className="w-9 h-9 rounded-pill bg-surface/90 hover:bg-surface active:scale-95 text-ink shadow-xs flex items-center justify-center cursor-pointer transition"
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-pill bg-surface/90 hover:bg-surface active:scale-95 text-ink shadow-xs flex items-center justify-center cursor-pointer transition"
                     >
                       <ChevronRight className="w-4 h-4" aria-hidden="true" />
                     </button>
@@ -751,7 +752,7 @@ export function WatchlistClient({
                   onClick={() => setSpotlightMinimized(true)}
                   aria-label="Minimize panel sorotan"
                   title="Minimize panel sorotan agar daftar watchlist lebih luas"
-                  className="min-h-9 px-3.5 rounded-pill bg-surface/95 hover:bg-surface text-ink text-xs font-bold shadow-card inline-flex items-center gap-1.5 cursor-pointer transition"
+                  className="min-h-8 sm:min-h-9 px-3 sm:px-3.5 rounded-pill bg-surface/95 hover:bg-surface text-ink text-xs font-bold shadow-card inline-flex items-center gap-1.5 cursor-pointer transition"
                 >
                   <Minimize2 className="w-3.5 h-3.5 text-teal-600" aria-hidden="true" />
                   <span>Minimize</span>
@@ -759,7 +760,7 @@ export function WatchlistClient({
               </div>
             </div>
 
-            {/* Center: Unified Clean Spotlight Card */}
+            {/* Center: Unified Clean Spotlight Card (Horizontal media layout on both mobile and desktop) */}
             <div className="relative z-10 my-3 flex-1 flex flex-col justify-center">
               {featuredTitle ? (
                 <div
@@ -767,105 +768,131 @@ export function WatchlistClient({
                   className="w-full flex flex-col animate-spotlight-in"
                 >
                   {/* Unified White/Glass Card */}
-                  <div className="w-full rounded-card bg-surface/95 backdrop-blur-xs shadow-hero border border-surface p-4 sm:p-5 flex flex-col sm:flex-row items-center sm:items-stretch gap-4 sm:gap-5">
-                    {/* Left: Poster Cover */}
-                    <button
-                      type="button"
-                      onClick={() => setSelectedTitleId(featuredTitle.id)}
-                      aria-label={`Lihat detail sorotan: ${featuredTitle.name}`}
-                      className="group relative rounded-card overflow-hidden shadow-card border border-line shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-400 transition-transform duration-300 ease-out hover:scale-[1.02]"
-                    >
-                      <PosterImage
-                        posterUrl={featuredTitle.posterUrl}
-                        name={featuredTitle.name}
-                        className="w-32 h-44 sm:w-36 sm:h-52 lg:w-40 lg:h-56 rounded-card"
-                        fallbackTextClassName="text-2xl lg:text-3xl font-bold"
-                      />
-                      {featuredTitle.rating != null && (
-                        <span className="absolute top-2 right-2 px-2 py-0.5 rounded-pill bg-ink/90 text-surface text-[11px] font-bold shadow-xs inline-flex items-center gap-1">
-                          <Star
-                            className="w-3 h-3 text-orange-500 fill-orange-500"
-                            aria-hidden="true"
-                          />
-                          {featuredTitle.rating}
-                        </span>
-                      )}
-                    </button>
-
-                    {/* Right: Structured Details & Actions */}
-                    <div className="flex-1 min-w-0 w-full flex flex-col justify-between text-center sm:text-left">
-                      <div>
-                        {/* Status & Type Pills */}
-                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 mb-2">
-                          <StatusBadge status={featuredTitle.status} />
-                          <span className="px-2.5 py-0.5 rounded-pill bg-surface-soft text-ink text-xs font-semibold border border-line">
-                            {TYPE_LABELS[featuredTitle.type as TitleTypeValue]}
+                  <div className="w-full rounded-card bg-surface/95 backdrop-blur-xs shadow-hero border border-surface p-3.5 sm:p-5 flex flex-col gap-3.5">
+                    <div className="flex flex-row items-start sm:items-stretch gap-3.5 sm:gap-5">
+                      {/* Left: Poster Cover */}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedTitleId(featuredTitle.id)}
+                        aria-label={`Lihat detail sorotan: ${featuredTitle.name}`}
+                        className="group relative rounded-card overflow-hidden shadow-card border border-line shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-teal-400 transition-transform duration-300 ease-out hover:scale-[1.02]"
+                      >
+                        <PosterImage
+                          posterUrl={featuredTitle.posterUrl}
+                          name={featuredTitle.name}
+                          className="w-24 h-36 sm:w-36 sm:h-52 lg:w-40 lg:h-56 rounded-card"
+                          fallbackTextClassName="text-xl sm:text-2xl lg:text-3xl font-bold"
+                        />
+                        {featuredTitle.rating != null && (
+                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2 py-0.5 rounded-pill bg-ink/90 text-surface text-[10px] sm:text-[11px] font-bold shadow-xs inline-flex items-center gap-0.5">
+                            <Star
+                              className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-orange-500 fill-orange-500"
+                              aria-hidden="true"
+                            />
+                            {featuredTitle.rating}
                           </span>
-                          {featuredTitle.year && (
-                            <span className="px-2.5 py-0.5 rounded-pill bg-surface-soft text-ink-muted text-xs font-semibold">
-                              {featuredTitle.year}
+                        )}
+                      </button>
+
+                      {/* Right: Structured Details */}
+                      <div className="flex-1 min-w-0 flex flex-col justify-between text-left">
+                        <div>
+                          {/* Status & Type Pills */}
+                          <div className="flex flex-wrap items-center gap-1.5 mb-1.5 sm:mb-2">
+                            <StatusBadge status={featuredTitle.status} />
+                            <span className="px-2 sm:px-2.5 py-0.5 rounded-pill bg-surface-soft text-ink text-[11px] sm:text-xs font-semibold border border-line">
+                              {TYPE_LABELS[featuredTitle.type as TitleTypeValue]}
                             </span>
+                            {featuredTitle.year && (
+                              <span className="px-2 sm:px-2.5 py-0.5 rounded-pill bg-surface-soft text-ink-muted text-[11px] sm:text-xs font-semibold">
+                                {featuredTitle.year}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Title Name */}
+                          <button
+                            type="button"
+                            onClick={() => setSelectedTitleId(featuredTitle.id)}
+                            className="text-left group cursor-pointer focus-visible:outline-none max-w-full"
+                          >
+                            <h2 className="text-base sm:text-xl lg:text-2xl font-bold text-ink line-clamp-2 group-hover:text-teal-600 transition-colors leading-snug">
+                              {featuredTitle.name}
+                            </h2>
+                          </button>
+
+                          {/* Episode Progress Info */}
+                          {(featuredTitle.type === "series" ||
+                            featuredTitle.type === "anime") && (
+                            <div className="mt-1.5 sm:mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-input bg-surface-soft text-[11px] sm:text-xs font-semibold text-ink">
+                              <span>Progres:</span>
+                              <span className="font-bold text-teal-600 tabular-nums">
+                                Ep {featuredTitle.episodeCurrent} /{" "}
+                                {featuredTitle.episodeTotal ?? "∞"}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Short Note Preview */}
+                          {featuredTitle.notes ? (
+                            <p className="mt-1.5 sm:mt-2 text-xs text-ink-muted line-clamp-2 leading-relaxed">
+                              {featuredTitle.notes.length > 95
+                                ? `${featuredTitle.notes.slice(0, 95).trim()}...`
+                                : featuredTitle.notes}
+                            </p>
+                          ) : (
+                            <p className="mt-1.5 sm:mt-2 text-xs text-ink-muted line-clamp-2">
+                              Klik detail untuk memperbarui progres atau membuka link streaming.
+                            </p>
                           )}
                         </div>
 
-                        {/* Title Name */}
-                        <button
-                          type="button"
-                          onClick={() => setSelectedTitleId(featuredTitle.id)}
-                          className="text-center sm:text-left group cursor-pointer focus-visible:outline-none max-w-full"
-                        >
-                          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-ink line-clamp-2 group-hover:text-teal-600 transition-colors">
-                            {featuredTitle.name}
-                          </h2>
-                        </button>
-
-                        {/* Episode Progress Info */}
-                        {(featuredTitle.type === "series" ||
-                          featuredTitle.type === "anime") && (
-                          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-input bg-surface-soft text-xs font-semibold text-ink">
-                            <span>Progres Episode:</span>
-                            <span className="font-bold text-teal-600">
-                              Ep {featuredTitle.episodeCurrent} /{" "}
-                              {featuredTitle.episodeTotal ?? "∞"}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Short Note Preview */}
-                        {featuredTitle.notes ? (
-                          <p className="mt-2 text-xs text-ink-muted line-clamp-2 leading-relaxed">
-                            {featuredTitle.notes.length > 110
-                              ? `${featuredTitle.notes.slice(0, 110).trim()}...`
-                              : featuredTitle.notes}
-                          </p>
-                        ) : (
-                          <p className="mt-2 text-xs text-ink-muted">
-                            Klik detail untuk memperbarui progres tontonan atau membuka link streaming resmi.
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Quick Watch Link & Detail CTA */}
-                      <div className="mt-4 pt-3 border-t border-line flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                        {featuredTitle.links[0] && (
-                          <a
-                            href={featuredTitle.links[0].url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="min-h-10 px-4 rounded-pill bg-cta-gradient text-ink text-xs font-bold inline-flex items-center gap-1.5 shadow-xs hover:opacity-95 active:scale-95 transition"
+                        {/* Desktop Quick Watch Link & Detail CTA */}
+                        <div className="hidden sm:flex mt-4 pt-3 border-t border-line flex-wrap items-center gap-2">
+                          {featuredTitle.links[0] && (
+                            <a
+                              href={featuredTitle.links[0].url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="min-h-10 px-4 rounded-pill bg-cta-gradient text-ink text-xs font-bold inline-flex items-center gap-1.5 shadow-xs hover:opacity-95 active:scale-95 transition"
+                            >
+                              <span>Tonton di {featuredTitle.links[0].label}</span>
+                              <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                            </a>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setSelectedTitleId(featuredTitle.id)}
+                            className="min-h-10 px-4 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs hover:bg-teal-600 active:scale-95 cursor-pointer transition"
                           >
-                            <span>Tonton di {featuredTitle.links[0].label}</span>
-                            <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                          </a>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setSelectedTitleId(featuredTitle.id)}
-                          className="min-h-10 px-4 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs hover:bg-teal-600 active:scale-95 cursor-pointer transition"
-                        >
-                          <span>Detail & Catatan</span>
-                        </button>
+                            <span>Detail & Catatan</span>
+                          </button>
+                        </div>
                       </div>
+                    </div>
+
+                    {/* Mobile Full-Width CTA Row */}
+                    <div className="flex sm:hidden pt-2.5 border-t border-line items-center gap-2">
+                      {featuredTitle.links[0] && (
+                        <a
+                          href={featuredTitle.links[0].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 min-h-10 px-3 rounded-pill bg-cta-gradient text-ink text-xs font-bold inline-flex items-center justify-center gap-1.5 shadow-xs active:scale-95 transition truncate"
+                        >
+                          <span className="truncate">
+                            Tonton ({featuredTitle.links[0].label})
+                          </span>
+                          <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                        </a>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedTitleId(featuredTitle.id)}
+                        className="flex-1 min-h-10 px-3 rounded-pill bg-ink text-surface text-xs font-semibold inline-flex items-center justify-center gap-1.5 shadow-xs active:scale-95 cursor-pointer transition"
+                      >
+                        <span>Detail & Catatan</span>
+                      </button>
                     </div>
                   </div>
 
@@ -1186,8 +1213,8 @@ export function WatchlistClient({
                 spotlightMinimized ? "" : "shrink-0"
               }`}
             >
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
-                <div className="relative flex-1 min-w-[160px]">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <div className="relative w-full sm:flex-1 min-w-0">
                   <Search
                     className="w-4 h-4 text-ink-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                     aria-hidden="true"
@@ -1201,43 +1228,45 @@ export function WatchlistClient({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Cari film, serial, anime..."
-                    className="w-full h-11 pl-10 pr-3.5 rounded-input bg-surface-soft text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-teal-600 transition"
+                    className="w-full h-10 sm:h-11 pl-10 pr-3.5 rounded-input bg-surface-soft text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-teal-600 transition"
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="watchlist-type" className="sr-only">
-                    Filter tipe tontonan
-                  </label>
-                  <select
-                    id="watchlist-type"
-                    value={typeFilter}
-                    onChange={(e) =>
-                      setTypeFilter(e.target.value as TitleTypeValue | "all")
-                    }
-                    className="h-11 px-3 rounded-input bg-surface-soft text-xs font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
-                  >
-                    <option value="all">Semua Tipe</option>
-                    <option value="movie">{TYPE_LABELS.movie}</option>
-                    <option value="series">{TYPE_LABELS.series}</option>
-                    <option value="anime">{TYPE_LABELS.anime}</option>
-                  </select>
-                </div>
+                <div className="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto">
+                  <div className="min-w-0">
+                    <label htmlFor="watchlist-type" className="sr-only">
+                      Filter tipe tontonan
+                    </label>
+                    <select
+                      id="watchlist-type"
+                      value={typeFilter}
+                      onChange={(e) =>
+                        setTypeFilter(e.target.value as TitleTypeValue | "all")
+                      }
+                      className="w-full h-10 sm:h-11 px-3 rounded-input bg-surface-soft text-xs font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+                    >
+                      <option value="all">Semua Tipe</option>
+                      <option value="movie">{TYPE_LABELS.movie}</option>
+                      <option value="series">{TYPE_LABELS.series}</option>
+                      <option value="anime">{TYPE_LABELS.anime}</option>
+                    </select>
+                  </div>
 
-                <div>
-                  <label htmlFor="watchlist-sort" className="sr-only">
-                    Urutkan berdasarkan
-                  </label>
-                  <select
-                    id="watchlist-sort"
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortKey)}
-                    className="h-11 px-3 rounded-input bg-surface-soft text-xs font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
-                  >
-                    <option value="updated_at">Terbaru Diubah</option>
-                    <option value="name">Judul (A–Z)</option>
-                    <option value="rating">Rating Tertinggi</option>
-                  </select>
+                  <div className="min-w-0">
+                    <label htmlFor="watchlist-sort" className="sr-only">
+                      Urutkan berdasarkan
+                    </label>
+                    <select
+                      id="watchlist-sort"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as SortKey)}
+                      className="w-full h-10 sm:h-11 px-3 rounded-input bg-surface-soft text-xs font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-teal-600 cursor-pointer"
+                    >
+                      <option value="updated_at">Terbaru Diubah</option>
+                      <option value="name">Judul (A–Z)</option>
+                      <option value="rating">Rating Tertinggi</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
