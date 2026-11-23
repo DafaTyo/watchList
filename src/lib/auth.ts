@@ -8,8 +8,28 @@ export function isRegistrationAllowed(): boolean {
   return process.env.ALLOW_REGISTRATION?.toLowerCase() === "true";
 }
 
+function getAuthBaseUrl(): string | undefined {
+  if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return undefined;
+}
+
 export const auth = betterAuth({
   appName: "Nixtio Watch",
+  baseURL: getAuthBaseUrl(),
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://*.vercel.app",
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ...(process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
+      : []),
+  ],
   database: prismaAdapter(db, {
     provider: "mysql",
   }),
